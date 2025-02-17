@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor USD a BTC</title>
+    <style>
+        body{ 
+            text-align: center; 
+            margin-top: 50px; 
+        }
+        input, button{ 
+            padding: 10px; 
+            font-size: 16px; 
+        }
+        #result{ 
+            margin-top: 20px; 
+            font-size: 16px; }
+    </style>
+</head>
+<body>
+    <h1>Convertir USD a BTC</h1>
+    <p>1 BTC = 98000 USD</p>
+
+    <input type="number" id="usd" placeholder="Ingresa monto en USD">
+    <button onclick="convert()">Convertir</button>
+    <div id="result"></div>
+
+    <script>
+        function convert() {
+            const usd = document.getElementById("usd").value;
+            if (!usd || usd <= 0) {
+                document.getElementById("result").innerHTML = "<p style='color: red;'>Ingresa un monto en dólares válido.<p>";
+                return;
+            }
+
+            fetch(`/convert?amount=${usd}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("result").innerHTML = `${usd} USD = ${data.btc} BTC`;
+                })
+                .catch(() => {
+                    document.getElementById("result").innerHTML = "Error";
+                });
+        }
+    </script>
+
+</body>
+</html>
